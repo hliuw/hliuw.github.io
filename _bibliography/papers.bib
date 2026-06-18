@@ -1,115 +1,94 @@
 ---
 ---
 
-@string{aps = {American Physical Society,}}
-
-@book{einstein1920relativity,
-  title     = {Relativity: the Special and General Theory},
-  author    = {Einstein, Albert},
-  year      = {1920},
-  publisher = {Methuen & Co Ltd},
-  html      = {relativity.html}
+@article{liu2026,
+    title={Phong-Rodrigues Extrinsic Vector-Field Processing}, 
+    author={Hongyi Liu and Oded Stein and Amir Vaxman and Mirela Ben-Chen and Misha Kazhdan},
+    year={2026},
+    journal = {Computer Graphics Forum},
+    additional_info = {&nbsp;(SGP)},
+    selected = {true},
+    preview  = {2026VectorField.png},
+    note = {coming soon},
+    abstract = {We introduce a new extrinsic discretization of tangent vector fields on triangle meshes that is continuous, with bounded derivatives that are continuous almost everywhere, supporting pointwise evaluation and integration of differential operators. We achieve this by building a continuous normal field over the mesh via Phong interpolation and using minimal Rodrigues rotations to transport vertex-based tangent vectors into triangle interiors. Unlike most existing discretizations, which typically sacrifice either continuity or the ability to evaluate derivatives pointwise, our approach supports both. Because it is pointwise evaluatable, and using the fact that the covariant derivative can be decomposed into its symmetric, antisymmetric, and scalar components, our discretization supports the construction of standard vector-field processing operators including the connection and Hodge Laplacians, Killing energy, divergence, curl, and the Lie bracket. This framework provides a simple and practical finite-element formulation for vector-field processing on meshes, supporting both integration-based operators and pointwise queries. To our knowledge, ours is the first discretization that jointly enables extrinsic continuous vector fields, bounded derivatives, and pointwise evaluation of this collection of operators.}
 }
 
-@book{einstein1956investigations,
-  bibtex_show = {true},
-  title       = {Investigations on the Theory of the Brownian Movement},
-  author      = {Einstein, Albert},
-  year        = {1956},
-  publisher   = {Courier Corporation},
-  preview     = {brownian-motion.gif}
+@article{https://doi.org/10.1111/cgf.70210,
+    author = {Maximilian Kohlbrenner and Hongyi Liu and Marc Alexa and Misha Kazhdan},
+    title = {Symmetrized Poisson Reconstruction},
+    journal = {Computer Graphics Forum},
+    volume = {44},
+    number = {5},
+    pages = {e70210},
+    keywords = {curve and surface reconstruction, outer product, polynomial optimization, CCS Concepts, • Computing methodologies → Shape modeling, • Mathematics of computing → Nonlinear equations, Numerical analysis},
+    doi = {https://doi.org/10.1111/cgf.70210},
+    url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.70210},
+    eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1111/cgf.70210},
+    abstract = {Abstract Many common approaches for reconstructing surfaces from point clouds leverage normal information to fit an implicit function to the points. Normals typically play two roles: the direction provides a planar approximation to the surface and the sign distinguishes inside from outside. When the sign is missing, reconstructing a surface with globally consistent sidedness is challenging. In this work, we investigate the idea of squaring the Poisson Surface Reconstruction, replacing the normals with their outer products, making the approach agnostic to the signs of the input/estimated normals. Squaring results in a quartic optimization problem, for which we develop an iterative and hierarchical solver, based on setting the cubic partial derivatives to zero. We show that this technique significantly outperforms standard L-BFGS solver and demonstrate reconstruction of surfaces from unoriented noisy input in linear time.},
+    year = {2025},
+    additional_info = {&nbsp;(SGP)},
+    selected = {true},
+    preview  = {SPR.png}
 }
 
-@article{einstein1950meaning,
-  abbr        = {AJP},
-  bibtex_show = {true},
-  title       = {The meaning of relativity},
-  author      = {Einstein, Albert and Taub, AH},
-  journal     = {American Journal of Physics},
-  volume      = {18},
-  number      = {6},
-  pages       = {403--404},
-  year        = {1950},
-  publisher   = {American Association of Physics Teachers}
+@article{doi:10.1021/acs.jcim.3c01430,
+author = {Xiang, Yan and Tang, Yu-Hang and Gong, Zheng and Liu, Hongyi and Wu, Liang and Lin, Guang and Sun, Huai},
+title = {Efficient Exploration of Chemical Compound Space Using Active Learning for Prediction of Thermodynamic Properties of Alkane Molecules},
+journal = {Journal of Chemical Information and Modeling},
+volume = {63},
+number = {21},
+pages = {6515-6524},
+year = {2023},
+selected = {true},
+doi = {10.1021/acs.jcim.3c01430},
+URL = { 
+    
+        https://doi.org/10.1021/acs.jcim.3c01430
+    
+    
+
+},
+eprint = { 
+    
+        https://doi.org/10.1021/acs.jcim.3c01430
+    
+    
+
+}
+,
+    abstract = { We introduce an exploratory active learning (AL) algorithm using Gaussian process regression and marginalized graph kernel (GPR-MGK) to sample chemical compound space (CCS) at minimal cost. Targeting 251,728 enumerated alkane molecules with 4–19 carbon atoms, we applied the AL algorithm to select a diverse and representative set of molecules and then conducted high-throughput molecular simulations on these selected molecules. To demonstrate the power of the AL algorithm, we built directed message-passing neural networks (D-MPNN) using simulation data as the training set to predict liquid densities, heat capacities, and vaporization enthalpies of the CCS. Validations show that D-MPNN models built on the smallest training set considered in this work, which consists of 313 molecules or 0.124\% of the original CCS, predict the properties with R2 > 0.99 against the computational data and R2 > 0.94 against the experimental data. The advantage of the presented AL algorithm is that the predicted uncertainty of GPR depends on only the molecular structures, which renders it compatible with high-throughput data generation. },
+    preview  = {2023JCIM.gif}
 }
 
-@article{PhysRev.47.777,
-  abbr              = {PhysRev},
-  title             = {Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?},
-  author            = {Einstein*†, A. and Podolsky*, B. and Rosen*, N.},
-  abstract          = {In a complete theory there is an element corresponding to each element of reality. A sufficient condition for the reality of a physical quantity is the possibility of predicting it with certainty, without disturbing the system. In quantum mechanics in the case of two physical quantities described by non-commuting operators, the knowledge of one precludes the knowledge of the other. Then either (1) the description of reality given by the wave function in quantum mechanics is not complete or (2) these two quantities cannot have simultaneous reality. Consideration of the problem of making predictions concerning a system on the basis of measurements made on another system that had previously interacted with it leads to the result that if (1) is false then (2) is also false. One is thus led to conclude that the description of reality as given by a wave function is not complete.},
-  journal           = {Phys. Rev.},
-  location          = {New Jersey},
-  volume            = {47},
-  issue             = {10},
-  pages             = {777--780},
-  numpages          = {0},
-  year              = {1935},
-  month             = {May},
-  publisher         = aps,
-  doi               = {10.1103/PhysRev.47.777},
-  url               = {https://link.aps.org/doi/10.1103/PhysRev.47.777},
-  html              = {https://journals.aps.org/pr/abstract/10.1103/PhysRev.47.777},
-  pdf               = {example_pdf.pdf},
-  altmetric         = {248277},
-  dimensions        = {true},
-  google_scholar_id = {qyhmnyLat1gC},
-  video             = {https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ},
-  additional_info   = {. *More Information* can be [found here](https://github.com/alshedivat/al-folio/)},
-  annotation        = {* Example use of superscripts<br>† Albert Einstein},
-  selected          = {true},
-  inspirehep_id     = {3255}
+
+
+@article{doi:10.1021/acs.jpca.1c02391,
+author = {Xiang, Yan and Tang, Yu-Hang and Liu, Hongyi and Lin, Guang and Sun, Huai},
+title = {Predicting Single-Substance Phase Diagrams: A Kernel Approach on Graph Representations of Molecules},
+journal = {The Journal of Physical Chemistry A},
+volume = {125},
+number = {20},
+pages = {4488-4497},
+year = {2021},
+selected = {true},
+doi = {10.1021/acs.jpca.1c02391},
+URL = { 
+    
+        https://doi.org/10.1021/acs.jpca.1c02391
+    
+    
+
+},
+eprint = { 
+    
+        https://doi.org/10.1021/acs.jpca.1c02391
+    
+    
+
+}
+,
+    abstract = { This work presents a Gaussian process regression (GPR) model on top of a novel graph representation of chemical molecules that predicts thermodynamic properties of pure substances in single, double, and triple phases. A transferable molecular graph representation is proposed as the input for a marginalized graph kernel, which is the major component of the covariance function in our GPR models. Radial basis function kernels of temperature and pressure are also incorporated into the covariance function when necessary. We predicted three types of representative properties of pure substances in single, double, and triple phases, i.e., critical temperature, vapor–liquid equilibrium (VLE) density, and pressure–temperature density. The accuracy of the models is nearly identical to the precision of the experimental measurements. Moreover, the reliability of our predictions can be quantified on a per-sample basis using the posterior uncertainty of the GPR model. We compare our model against Morgan fingerprints and a graph neural network to further demonstrate the advantage of the proposed method. },
+    preview  = {2021JPC.gif}
 }
 
-@article{einstein1905molekularkinetischen,
-  title     = {{\"U}ber die von der molekularkinetischen Theorie der W{\"a}rme geforderte Bewegung von in ruhenden Fl{\"u}ssigkeiten suspendierten Teilchen},
-  author    = {Einstein, A.},
-  journal   = {Annalen der physik},
-  volume    = {322},
-  number    = {8},
-  pages     = {549--560},
-  year      = {1905},
-  publisher = {Wiley Online Library}
-}
 
-@article{einstein1905movement,
-  abbr    = {Ann. Phys.},
-  title   = {Un the movement of small particles suspended in statiunary liquids required by the molecular-kinetic theory 0f heat},
-  author  = {Einstein, A.},
-  journal = {Ann. Phys.},
-  volume  = {17},
-  pages   = {549--560},
-  year    = {1905}
-}
-
-@article{einstein1905electrodynamics,
-  title  = {On the electrodynamics of moving bodies},
-  author = {Einstein, A.},
-  year   = {1905}
-}
-
-@article{einstein1905photoelectriceffect,
-  bibtex_show = {true},
-  abbr        = {Ann. Phys.},
-  title       = {{{\"U}ber einen die Erzeugung und Verwandlung des Lichtes betreffenden heuristischen Gesichtspunkt}},
-  author      = {Albert Einstein},
-  abstract    = {This is the abstract text.},
-  journal     = {Ann. Phys.},
-  volume      = {322},
-  number      = {6},
-  pages       = {132--148},
-  year        = {1905},
-  doi         = {10.1002/andp.19053220607},
-  award       = {Albert Einstein receveid the **Nobel Prize in Physics** 1921 *for his services to Theoretical Physics, and especially for his discovery of the law of the photoelectric effect*},
-  award_name  = {Nobel Prize}
-}
-
-@book{przibram1967letters,
-  bibtex_show = {true},
-  title       = {Letters on wave mechanics},
-  author      = {Einstein, Albert and Schrödinger, Erwin and Planck, Max and Lorentz, Hendrik Antoon and Przibram, Karl},
-  year        = {1967},
-  publisher   = {Vision},
-  preview     = {wave-mechanics.gif},
-  abbr        = {Vision}
-}
