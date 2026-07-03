@@ -180,8 +180,16 @@
     {% endif %}
     {% assign entrytype_text = entrytype | strip_html | strip %}
     {% capture periodical %}{{ entrytype }}{% if entrytype_text != "" and entryyear != "" %}, {% endif %}{{ entrymonth }}{{ entryyear }}{% endcapture %}
-    <div class="periodical">
+    <div class="periodical" style="display: flex; align-items: center; flex-wrap: wrap;">
       {{ periodical | strip }}
+      {% if entry.award %}
+        <span
+          class="award"
+          style="display: inline-block; background-color: #e8720c; color: #fff; padding: 0.15rem 0.65rem; border-radius: 0.35rem; font-family: inherit; font-size: 0.75rem; font-weight: bold; margin-left: 0.5rem;"
+        >
+          {%- if entry.award_name %}{{ entry.award_name }}{% else %}Awarded{% endif -%}
+        </span>
+      {% endif %}
     </div>
     <div class="periodical">
       {{ entry.note | strip }}
@@ -189,11 +197,6 @@
 
     <!-- Links/Buttons -->
     <div class="links">
-      {% if entry.award %}
-        <a class="award btn btn-sm z-depth-0" role="button">
-          {%- if entry.award_name %}{{ entry.award_name }}{% else %}Awarded{% endif -%}
-        </a>
-      {% endif %}
       {% if entry.abstract %}
         <a class="abstract btn btn-sm z-depth-0" role="button">Abs</a>
       {% endif %}
@@ -360,13 +363,6 @@
           {% endif %}
         </div>
       {% endif %}
-    {% endif %}
-
-    {% if entry.award %}
-      <!-- Hidden Award block -->
-      <div class="award hidden d-print-inline">
-        <p>{{ entry.award | markdownify }}</p>
-      </div>
     {% endif %}
 
     {% if entry.abstract %}
