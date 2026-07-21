@@ -14,6 +14,15 @@ profile:
     </div>
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
+
+miscellaneous:
+  enabled: true
+  content: >
+    <p>
+    Besides research, I'm quite into photography. My profile picture is taken as a selfie while studying at a photography studio in Shanghai. Here are some <a href="/photography/">other pictures</a> I took. <br>
+    (I keep trying to find the artsy side of computer graphics, but math problems keep finding me first.)
+    </p>
+
 social: false # includes social icons at the bottom of the page
 
 announcements:
