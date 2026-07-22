@@ -2,7 +2,7 @@
 layout: page
 title: photography
 permalink: /photography/
-description: A collection of pictures I've taken.
+description: Some pictures I've taken.
 nav: false
 photos:
   - 1.jpg
