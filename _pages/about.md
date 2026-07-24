@@ -20,7 +20,7 @@ miscellaneous:
   content: >
     <p>
     Besides research, I'm quite into photography. My profile picture is taken as a selfie while studying at a photography studio back in Shanghai. Here are some <a href="/photography/">other pictures</a> I took. (I keep trying to find the artsy side of computer graphics, but math problems keep finding me first.) <br>
-    I also enjoy climbing and dancing (popping and a little bit of hiphop).
+    I also enjoy climbing and dancing (popping and a little bit of hiphop). My favourite game is Outer Wilds.
     </p>
 
 social: false # includes social icons at the bottom of the page
