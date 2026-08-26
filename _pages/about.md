@@ -36,7 +36,7 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I am a third-year PhD student in computer science at Johns Hopkins University (JHU), advised by Prof. [Misha Kazhdan](https://www.cs.jhu.edu/~misha/). I work in computer graphics with a focus on geometry processing and surface reconstruction. 
+I am a 4th-year PhD student in computer science at Johns Hopkins University (JHU), advised by Prof. [Misha Kazhdan](https://www.cs.jhu.edu/~misha/). I work in computer graphics with a focus on geometry processing and surface reconstruction. 
 
 I study how the choice of discretization shapes the capability and robustness of geometry processing algorithms. My recent work develops an **extrinsic vector-field** discretization that is continuous and pointwise evaluatable, with bounded derivatives. Since the discretization supports pointwise evaluation, I am keen to explore its use inside autodiff pipelines. I am also interested in **adaptive, hierarchical representations**, where I developed a multigrid-style solver for surface reconstruction from unoriented point clouds.
 
