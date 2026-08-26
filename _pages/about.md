@@ -38,7 +38,7 @@ latest_posts:
 
 I am a 4th-year PhD student in computer science at Johns Hopkins University (JHU), advised by Prof. [Misha Kazhdan](https://www.cs.jhu.edu/~misha/). I work in computer graphics with a focus on geometry processing and surface reconstruction. 
 
-I study how the choice of discretization shapes the capability and robustness of geometry processing algorithms. My recent work develops an **extrinsic vector-field** discretization that is continuous and pointwise evaluatable, with bounded derivatives. Since the discretization supports pointwise evaluation, I am keen to explore its use inside autodiff pipelines. I am also interested in **adaptive, hierarchical representations**, where I developed a multigrid-style solver for surface reconstruction from unoriented point clouds.
+I study how the choice of discretization shapes the capability and robustness of geometry processing algorithms. My recent work develops an **extrinsic vector-field** discretization that is continuous and pointwise evaluatable, with bounded derivatives. I am also interested in **adaptive, hierarchical representations**, where I developed a multigrid-style solver for surface reconstruction from unoriented point clouds.
 
 Before starting my PhD, I received a B.S. in Electrical and Computer Engineering from Shanghai Jiao Tong University (2020) and an M.S.E. in Electrical and Computer Engineering from Johns Hopkins University (2023). There, I had the good fortune to work with Prof. [Huai Sun](https://scholar.google.com/citations?user=YzcYG9EAAAAJ&hl=en), Prof. [Guang Lin](https://www.math.purdue.edu/~lin491/), and Prof. [Xiaolin Huang](http://www.pami.sjtu.edu.cn/en/xiaolin).
 
