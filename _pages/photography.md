@@ -4,6 +4,7 @@ title: photography
 permalink: /photography/
 description: Some pictures I've taken.
 nav: false
+published: false
 photos:
   - 1.jpg
   - 2.jpg

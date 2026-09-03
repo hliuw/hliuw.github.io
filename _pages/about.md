@@ -6,8 +6,8 @@ subtitle:
 
 profile:
   align: left
-  image: prof_pic.png
-  image_circular: false # crops the image to make it circular
+  image: IMG_1834.jpeg
+  image_circular: true # crops the image to make it circular
   more_info: >
     <div style="text-align: center">
     <p style="font-family: 'Roboto Slab', serif;">liuhongyi@jhu.edu</p>
@@ -16,7 +16,7 @@ profile:
 selected_papers: true # includes a list of papers marked as "selected={true}"
 
 miscellaneous:
-  enabled: true
+  enabled: False
   content: >
     <p>
     Besides research, I'm quite into photography. My profile picture is taken as a selfie while studying at a photography studio back in Shanghai. Here are some <a href="/photography/">other pictures</a> I took. (I keep trying to find the artsy side of computer graphics, but math problems keep finding me first.) <br>
@@ -40,7 +40,10 @@ I am a 4th-year PhD student in computer science at Johns Hopkins University (JHU
 
 I study how the choice of discretization shapes the capability and robustness of geometry processing algorithms. My recent work develops an **extrinsic vector-field** discretization that is continuous and pointwise evaluatable, with bounded derivatives. I am also interested in **adaptive, hierarchical representations**, where I developed a multigrid-style solver for surface reconstruction from unoriented point clouds.
 
-Before starting my PhD, I received a B.S. in Electrical and Computer Engineering from Shanghai Jiao Tong University (2020) and an M.S.E. in Electrical and Computer Engineering from Johns Hopkins University (2023). There, I had the good fortune to work with Prof. [Huai Sun](https://scholar.google.com/citations?user=YzcYG9EAAAAJ&hl=en), Prof. [Guang Lin](https://www.math.purdue.edu/~lin491/), and Prof. [Xiaolin Huang](http://www.pami.sjtu.edu.cn/en/xiaolin).
+Before starting my PhD, I received a B.S. in Electrical and Computer Engineering from Shanghai Jiao Tong University (2020) and an M.S.E. in Electrical and Computer Engineering from Johns Hopkins University (2023). There, I had the good fortune to work with Prof. [Huai Sun](https://scholar.google.com/citations?user=YzcYG9EAAAAJ&hl=en), Prof. [Guang Lin](https://www.math.purdue.edu/~lin491/), and Prof. [Xiaolin Huang](http://www.pami.sjtu.edu.cn/en/xiaolin) on machine learning and computational chemistry.
+
+> I am looking for a Summer 2027 research internship in graphics. Feel free to reach out!
+{: .block-tip }
 
 
 
