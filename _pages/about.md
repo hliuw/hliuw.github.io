@@ -10,7 +10,7 @@ profile:
   image_circular: true # crops the image to make it circular
   more_info: >
     <div style="text-align: center">
-    <p style="font-family: 'Roboto Slab', serif;">liuhongyi@jhu.edu</p>
+    <p style="font-family: 'Roboto Slab', serif;">hliu125@jh.edu</p>
     </div>
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
@@ -42,7 +42,7 @@ I study how the choice of discretization shapes the capability and robustness of
 
 Before starting my PhD, I received a B.S. in Electrical and Computer Engineering from Shanghai Jiao Tong University (2020) and an M.S.E. in Electrical and Computer Engineering from Johns Hopkins University (2023). There, I had the good fortune to work with Prof. [Huai Sun](https://scholar.google.com/citations?user=YzcYG9EAAAAJ&hl=en), Prof. [Guang Lin](https://www.math.purdue.edu/~lin491/), and Prof. [Xiaolin Huang](http://www.pami.sjtu.edu.cn/en/xiaolin) on machine learning and computational chemistry.
 
-> I am looking for a Summer 2027 research internship in graphics. Feel free to reach out!
+> I am looking for a Summer 2027 research internship in geometry processing and 3D reconstruction. Feel free to reach out!
 {: .block-tip }
 
 
