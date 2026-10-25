@@ -1,6 +1,18 @@
 ---
 ---
 
+@article{liu2026texture,
+    title = {Texture Consolidation of Generated Multi-View Renderings},
+    author = {Hongyi Liu and Yifan Wang and Vladimir G. Kim and Misha Kazhdan},
+    journal = {arXiv preprint},
+    year = {2026},
+    website = {/texture-consolidation/},
+    selected = {true},
+    preprint = {true},
+    preview = {2026TextureConsolidation.png},
+    abstract = {We present a system for consolidating a sparse set of multi-view renderings into a single coherent texture image, providing a framework for integrating generative models for image generation within the geometry-processing pipeline. Given a texture-atlased triangle mesh and a set of renderings with associated camera parameters, we generate the texture image by: (1) back-projecting the renderings onto the mesh to obtain texture images with normalized colors and confidences; (2) solving for flow-fields on the mesh that align the colors to each other, taking into account the associated confidences; and (3) fusing the registered colors into a single texture image using gradient-domain stitching, again incorporating confidences. Our approach complements existing techniques for multi-view image generation, leveraging mesh-based optical flow and texture-space stitching. In doing so it addresses the challenge that while modern image generation pipelines generate highly convincing renderings, they struggle to produce renderings that are consistent across views.}
+}
+
 @article{liu2026,
     title={Phong-Rodrigues Extrinsic Vector-Field Processing}, 
     author={Hongyi Liu and Oded Stein and Amir Vaxman and Mirela Ben-Chen and Misha Kazhdan},

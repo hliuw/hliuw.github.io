@@ -54,14 +54,18 @@ tc_methods:
 tc_default_method: blended
 ---
 
-<!--
+{% comment %}
   DRAFT project page. The paper is an arXiv preprint (not published at a venue).
   Before making this public:
     1. Fill in the arXiv URL, and the arXiv ID in the BibTeX (XXXX.XXXXX).
-    2. Fill in the code URL once github.com/hliuw/TextureConsolidation is public.
+    2. Once github.com/hliuw/TextureConsolidation is public, restore the Code
+       button and the 3D section's "code release" link (both in Liquid comments).
+  The BibTeX section and button are hidden in Liquid comments for now.
   Images in assets/img/texture_consolidation/ are renderings only.
   No mesh or texture data may be added there (copyright).
--->
+  The vase mesh and textures in assets/texture_consolidation/vase/ are cleared
+  for distribution; keep the ISTI-CNR credit line next to the viewer.
+{% endcomment %}
 
 {% assign tc_first = page.tc_objects | first %}
 {% assign tc_img = '/assets/img/texture_consolidation/' | relative_url %}
@@ -85,8 +89,10 @@ tc_default_method: blended
 
   <nav class="tc-links" aria-label="Paper resources">
     <a href="#" class="tc-link" aria-disabled="true">arXiv</a>
-    <a href="#" class="tc-link" aria-disabled="true">Code</a>
-    <a href="#bibtex" class="tc-link">BibTeX</a>
+    {% comment %} Code is hidden until github.com/hliuw/TextureConsolidation is public. {% endcomment %}
+    {% comment %}<a href="https://github.com/hliuw/TextureConsolidation" class="tc-link">Code</a>{% endcomment %}
+    {% comment %} BibTeX is hidden for now; restore together with the section below. {% endcomment %}
+    {% comment %}<a href="#bibtex" class="tc-link">BibTeX</a>{% endcomment %}
   </nav>
 
   <figure class="tc-teaser">
@@ -232,6 +238,40 @@ tc_default_method: blended
 
   </figure>
 
+  <h2>Interactive 3D Comparison</h2>
+
+  <p class="tc-caption-lead">
+    {% comment %} Link "code release" to github.com/hliuw/TextureConsolidation once it is public. {% endcomment %}
+    The example run from our code release:
+    a texture computed from nine photographs of a vase with
+    known cameras. Drag to rotate, scroll or pinch to zoom, and drag the divider to compare
+    <strong>Blended</strong> (left) with <strong>Ours</strong> (right).
+  </p>
+
+  <figure class="tc-3d" id="tc-3d"
+          data-base="{{ '/assets/texture_consolidation/vase/' | relative_url }}">
+    <div class="tc-3d-stage">
+      <canvas class="tc-3d-canvas" aria-label="3D view of the textured vase. Drag to rotate, scroll to zoom."></canvas>
+      <div class="tc-3d-divider" role="slider" tabindex="0" aria-label="Comparison divider: Blended on the left, Ours on the right"
+           aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" hidden>
+        <span class="tc-3d-handle" aria-hidden="true"></span>
+      </div>
+      <span class="tc-tag tc-3d-tag-left" hidden>Blended</span>
+      <span class="tc-tag tc-3d-tag-right" hidden>Ours</span>
+      <button type="button" class="tc-3d-reset" hidden>Reset view</button>
+      <span class="tc-3d-tap" aria-hidden="true" hidden>tap to interact</span>
+      <p class="tc-3d-status">Loading the 3D model&hellip;</p>
+    </div>
+    <figcaption class="tc-credit">
+      The vase model and photographs used in the example run are courtesy of Paolo Cignoni and Marco
+      Callieri, <a href="https://vcg.isti.cnr.it/">Visual Computing Laboratory, ISTI-CNR</a>.
+    </figcaption>
+  </figure>
+
+{% comment %}
+  BibTeX is hidden for now. To restore it, remove this comment wrapper and the
+  one around the BibTeX button in the link row.
+
   <h2 id="bibtex">BibTeX</h2>
 
 <pre class="tc-bibtex"><code>@article{liu2026texture,
@@ -240,6 +280,7 @@ tc_default_method: blended
   journal = {arXiv preprint arXiv:XXXX.XXXXX},
   year    = {2026}
 }</code></pre>
+{% endcomment %}
 
 </div>
 
@@ -722,6 +763,163 @@ tc_default_method: blended
     font-weight: 600;
   }
 
+  /* ---- 3D comparison ---- */
+
+  .tc-3d {
+    margin: 1.5rem 0 0;
+  }
+
+  .tc-3d-stage {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.5rem;
+  }
+
+  .tc-3d-canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+  }
+
+  .tc-3d-canvas:active {
+    cursor: grabbing;
+  }
+
+  /* The divider's hit area is wider than the visible line, so it is easy to
+     grab without stealing drags meant for rotating the model. */
+  .tc-3d-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2rem;
+    margin-left: -1rem;
+    cursor: ew-resize;
+    touch-action: none;
+    outline: none;
+  }
+
+  .tc-3d-divider::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    margin-left: -1px;
+    background-color: var(--global-theme-color);
+  }
+
+  .tc-3d-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.9rem;
+    height: 1.9rem;
+    margin: -0.95rem 0 0 -0.95rem;
+    border: 2px solid var(--global-theme-color);
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Two chevrons, drawn with borders so they need no icon font. */
+  .tc-3d-handle::before,
+  .tc-3d-handle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 0.38rem;
+    height: 0.38rem;
+    margin-top: -0.19rem;
+    border: solid var(--global-theme-color);
+    border-width: 0 0 2px 2px;
+  }
+
+  .tc-3d-handle::before {
+    left: 0.42rem;
+    transform: rotate(45deg);
+  }
+
+  .tc-3d-handle::after {
+    right: 0.42rem;
+    transform: rotate(-135deg);
+  }
+
+  .tc-3d-divider:focus-visible .tc-3d-handle {
+    outline: 2px solid var(--global-theme-color);
+    outline-offset: 2px;
+  }
+
+  .tc-3d-tag-right {
+    left: auto;
+    right: 0.5rem;
+    background-color: var(--global-theme-color);
+  }
+
+  .tc-3d-reset {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    appearance: none;
+    padding: 0.2rem 0.7rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #222;
+    font: inherit;
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+
+  .tc-3d-reset:hover {
+    border-color: var(--global-theme-color);
+    color: var(--global-theme-color);
+  }
+
+  .tc-3d-tap {
+    position: absolute;
+    left: 50%;
+    bottom: 0.7rem;
+    transform: translateX(-50%);
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  .tc-3d-status {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  /* display:flex above would otherwise override the hidden attribute. */
+  .tc-3d-status[hidden] {
+    display: none;
+  }
+
+  .tc-credit {
+    margin-top: 0.7rem;
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
   .tc-bibtex {
     background-color: var(--global-code-bg-color);
     border-radius: 0.4rem;
@@ -754,6 +952,10 @@ tc_default_method: blended
 
     .tc-paper h2 {
       margin-top: 3rem;
+    }
+
+    .tc-3d-stage {
+      aspect-ratio: 1 / 1;
     }
   }
 
@@ -1072,4 +1274,187 @@ tc_default_method: blended
     setObject(state.obj);
     setMethod(state.method);
   })();
+</script>
+
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+    }
+  }
+</script>
+
+<script type="module">
+  // Split-view 3D comparison of the vase. The same mesh is drawn twice per
+  // frame through one camera: Blended left of the divider, Ours right of it.
+  // three.js and the model load only when the section comes near the viewport.
+  const root = document.getElementById('tc-3d');
+
+  // Opening view: the camera chosen for the code release's README figure,
+  // shifted into the frame of the centered mesh in vase.bin.
+  const HOME = [0.0451, 0.9289, 3.5627];
+  const FOV = 30;
+
+  if (root) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        io.disconnect();
+        init().catch((err) => {
+          console.error(err);
+          root.querySelector('.tc-3d-status').textContent = 'The 3D viewer could not load in this browser.';
+        });
+      }
+    }, { rootMargin: '300px' });
+    io.observe(root);
+  }
+
+  async function init() {
+    const [THREE, { OrbitControls }] = await Promise.all([
+      import('three'),
+      import('three/addons/controls/OrbitControls.js'),
+    ]);
+
+    const base = root.getAttribute('data-base');
+    const stage = root.querySelector('.tc-3d-stage');
+    const canvas = root.querySelector('.tc-3d-canvas');
+    const divider = root.querySelector('.tc-3d-divider');
+    const status = root.querySelector('.tc-3d-status');
+    const reset = root.querySelector('.tc-3d-reset');
+    const tapHint = root.querySelector('.tc-3d-tap');
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setClearColor(0xffffff, 1);
+
+    // vase.bin: uint32 vertex count, uint32 index count, then float32
+    // positions (xyz), float32 uvs, uint16 triangle indices.
+    const loadTexture = (url) => new Promise((resolve, reject) => {
+      new THREE.TextureLoader().load(url, resolve, undefined, reject);
+    });
+    const [buf, texBlended, texOurs] = await Promise.all([
+      fetch(base + 'vase.bin').then((r) => {
+        if (!r.ok) throw new Error('vase.bin: HTTP ' + r.status);
+        return r.arrayBuffer();
+      }),
+      loadTexture(base + 'blended.webp'),
+      loadTexture(base + 'ours.webp'),
+    ]);
+    const [nV, nI] = new Uint32Array(buf, 0, 2);
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(buf, 8, nV * 3), 3));
+    geometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(buf, 8 + nV * 12, nV * 2), 2));
+    geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(buf, 8 + nV * 20, nI), 1));
+
+    // Unlit, so the textures appear exactly as computed.
+    const material = (tex) => {
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      return new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide });
+    };
+    const matBlended = material(texBlended);
+    const matOurs = material(texOurs);
+
+    const scene = new THREE.Scene();
+    const mesh = new THREE.Mesh(geometry, matOurs);
+    scene.add(mesh);
+
+    const camera = new THREE.PerspectiveCamera(FOV, 1, 0.05, 50);
+    const controls = new OrbitControls(camera, canvas);
+    controls.enablePan = false;
+    controls.minDistance = 1.0;
+    controls.maxDistance = 9;
+
+    function goHome() {
+      camera.position.set(HOME[0], HOME[1], HOME[2]);
+      camera.up.set(0, 1, 0);
+      controls.target.set(0, 0, 0);
+      controls.update();
+    }
+
+    let split = 0.5;
+    function render() {
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      const sx = Math.round(w * split);
+      renderer.setScissorTest(true);
+      mesh.material = matBlended;
+      renderer.setScissor(0, 0, sx, h);
+      renderer.render(scene, camera);
+      mesh.material = matOurs;
+      renderer.setScissor(sx, 0, w - sx, h);
+      renderer.render(scene, camera);
+    }
+
+    function resize() {
+      const w = stage.clientWidth;
+      const h = stage.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      render();
+    }
+
+    function setSplit(s) {
+      split = Math.min(0.98, Math.max(0.02, s));
+      divider.style.left = split * 100 + '%';
+      divider.setAttribute('aria-valuenow', String(Math.round(split * 100)));
+      render();
+    }
+
+    controls.addEventListener('change', render);
+    new ResizeObserver(resize).observe(stage);
+
+    // Divider: drag it, or focus it and use the arrow keys.
+    divider.addEventListener('pointerdown', (e) => {
+      divider.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    divider.addEventListener('pointermove', (e) => {
+      if (divider.hasPointerCapture(e.pointerId)) {
+        const r = stage.getBoundingClientRect();
+        setSplit((e.clientX - r.left) / r.width);
+      }
+    });
+    divider.addEventListener('keydown', (e) => {
+      const step = e.shiftKey ? 0.1 : 0.02;
+      const d = { ArrowLeft: -step, ArrowRight: step, Home: -1, End: 1 }[e.key];
+      if (d !== undefined) {
+        e.preventDefault();
+        setSplit(split + d);
+      }
+    });
+
+    reset.addEventListener('click', () => {
+      goHome();
+      setSplit(0.5);
+    });
+
+    // Touch screens: the model only takes touches after a tap, so a swipe
+    // across it still scrolls the page. Touching elsewhere releases it.
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      const activate = (on) => {
+        controls.enabled = on;
+        canvas.style.touchAction = on ? 'none' : 'pan-y';
+        tapHint.hidden = on;
+      };
+      activate(false);
+      // Anywhere in the stage: the hint sits over the divider, so a tap on
+      // the hint lands on the divider rather than the canvas.
+      stage.addEventListener('click', () => activate(true));
+      document.addEventListener('pointerdown', (e) => {
+        if (!stage.contains(e.target)) activate(false);
+      });
+    }
+
+    goHome();
+    setSplit(0.5);
+    resize();
+    status.hidden = true;
+    divider.hidden = false;
+    reset.hidden = false;
+    root.querySelectorAll('.tc-tag').forEach((t) => { t.hidden = false; });
+    root.classList.add('is-ready');
+  }
 </script>

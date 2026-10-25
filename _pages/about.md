@@ -13,7 +13,9 @@ profile:
     <p style="font-family: 'Roboto Slab', serif;"><a href="mailto:hliu125@jh.edu">hliu125@jh.edu</a></p>
     </div>
 
-selected_papers: true # includes a list of papers marked as "selected={true}"
+# The layout's built-in list is off: the page body below renders the same
+# "selected publications" section itself, adding a "show preprints" toggle.
+selected_papers: false
 
 miscellaneous:
   enabled: False
@@ -44,6 +46,66 @@ Before starting my PhD, I received a B.S. in Electrical and Computer Engineering
 
 > I am looking for a Summer 2027 research internship in geometry processing and 3D reconstruction. Feel free to reach out!
 {: .block-tip }
+
+<!--
+  Selected publications. Mirrors the layout's built-in section, split into two
+  queries so preprints (bib field `preprint = {true}`) can be toggled.
+-->
+{::nomarkdown}
+<div class="pub-head">
+  <h2><a href="{{ '/publications/' | relative_url }}" style="color: inherit">Publications</a></h2>
+  <label class="pub-toggle">
+    <input type="checkbox" id="pub-show-preprints" checked>
+    show preprints
+  </label>
+</div>
+<div class="publications">
+  <div class="pub-preprints">
+    {% bibliography --group_by none --query @*[selected=true,preprint=true]* %}
+  </div>
+  {% bibliography --group_by none --query @*[selected=true,preprint!=true]* %}
+</div>
+{:/nomarkdown}
+
+<style>
+  .pub-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+  }
+
+  .pub-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .pub-toggle input {
+    accent-color: var(--global-theme-color);
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  (function () {
+    var box = document.getElementById('pub-show-preprints');
+    var preprints = document.querySelector('.pub-preprints');
+    if (!box || !preprints) {
+      return;
+    }
+    function sync() {
+      preprints.hidden = !box.checked;
+    }
+    box.addEventListener('change', sync);
+    sync();
+  })();
+</script>
 
 
 
