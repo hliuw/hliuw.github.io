@@ -1,0 +1,1180 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Texture Consolidation | Hongyi Liu </title> <meta name="author" content="Hongyi Liu"> <meta name="description" content="Project page for " texture consolidation of generated multi-view renderings> <meta name="keywords" content="Hongyi Liu, Johns Hopkins University, JHU, JHU Computer Science, computer graphics, geometry processing, surface reconstruction, Misha Kazhdan"> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <style>
+  :root {
+    --max-content-width: 930px;
+  }
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=f0b101217084a90093badfe99ff9a7d1"> <link rel="canonical" href="https://hliuw.github.io/texture-consolidation/"> <script src="/assets/js/theme.js?v=7af685e2ba20b37fef545c97b8064050"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?v=5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <span class="navbar-brand title"> <span class="font-weight-bold">Hongyi Liu</span> </span> <button class="navbar-toggler collapsed navbar-toggler-main" type="button" data-nav-toggle="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav"> <ul class="navbar-nav navbar-menu-list flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">Homepage </a> </li> <li class="toggle-container"> <button id="light-toggle" type="button" title="Change theme" aria-label="Change color theme"> <i class="fa-half-sun-moon" id="light-toggle-system"></i> <i class="fa-solid fa-moon" id="light-toggle-dark"></i> <i class="fa-solid fa-sun" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Texture Consolidation</h1> <p class="post-description">Project page for "Texture Consolidation of Generated Multi-View Renderings"</p> </header> <article> <div class="tc-paper"> <h1 class="tc-title">Texture Consolidation of Generated Multi-View Renderings</h1> <div class="tc-authors"> <span>Hongyi Liu<sup>1</sup></span> <span>Yifan Wang<sup>2</sup></span> <span>Vladimir G. Kim<sup>3</sup></span> <span>Misha Kazhdan<sup>1</sup></span> </div> <div class="tc-affil"> <span><sup>1</sup>Johns Hopkins University</span> <span><sup>2</sup>Adobe Research</span> <span><sup>3</sup>Adobe Firefly Foundry</span> </div> <nav class="tc-links" aria-label="Paper resources"> <a href="#" class="tc-link" aria-disabled="true">arXiv</a> </nav> <figure class="tc-teaser"> <img src="/assets/img/texture_consolidation/teaser.webp" alt="Pipeline overview: multi-view renderings are back-projected into texture-space colors and confidences, registered by a flow-field on the surface, and fused by gradient-domain stitching; naive blending ghosts where the registered-and-stitched result stays sharp." width="2400" height="768" decoding="async"> <figcaption> <p> <span class="tc-io">Input</span> A sparse set of generated multi-view renderings with known cameras (left), together with a texture-atlased mesh. </p> <p> We back-project the renderings into texture-space colors and confidences, register them with flow-fields solved on the surface, and fuse them by confidence-aware gradient-domain stitching. </p> <p> <span class="tc-io">Output</span> A single seamless texture image, shown rendered on the mesh (right). Confidence-weighted blending alone ghosts; registration and stitching keep the detail sharp. </p> </figcaption> </figure> <h2>Abstract</h2> <p class="tc-abstract"> We present a system for consolidating a sparse set of multi-view renderings into a single coherent texture image, providing a framework for integrating generative models for image generation within the geometry-processing pipeline. Given a texture-atlased triangle mesh and a set of renderings with associated camera parameters, we generate the texture image by: (1) back-projecting the renderings onto the mesh to obtain texture images with normalized colors and confidences; (2) solving for flow-fields on the mesh that align the colors to each other, taking into account the associated confidences; and (3) fusing the registered colors into a single texture image using gradient-domain stitching, again incorporating confidences. Our approach complements existing techniques for multi-view image generation, leveraging mesh-based optical flow and texture-space stitching. In doing so it addresses the challenge that while modern image generation pipelines generate highly convincing renderings, they struggle to produce renderings that are consistent across views. </p> <h2>Results</h2> <p class="tc-caption-lead"> Front views of textured mesh output using nine generated renderings. The front view shown is <strong class="tc-not">not</strong> one of the nine inputs. Fusing misaligned renderings directly leaves ghosting and blur, while selecting one view per patch, as MVS-tex does, stays sharp inside each patch but leaves seams where patches meet. Methods designed for dense RGB-D captures, such as ColorMap and AdvIA, degrade on a sparse set of inputs. Our method registers the renderings on the surface before fusing them, producing a seamless, ghost-free texture. </p> <p class="tc-caption-lead"> <strong>Highlights</strong> steps through the regions the paper zooms into; <strong>Free zoom</strong> magnifies whatever is under the cursor. The row below shows every method at the same spot — pick one to set it beside ours. </p> <figure class="tc-viewer" id="tc-viewer" data-base="/assets/img/texture_consolidation/" data-method="blended" data-mode="regions"> <script type="application/json" class="tc-data">[{"key":"mask","name":"Mask","regions":[{"name":"Swirl","at":[0.251,0.47]},{"name":"Ornament","at":[0.344,0.815]}]},{"key":"penguin","name":"Penguin","regions":[{"name":"Flag","at":[0.441,0.456]},{"name":"Eye","at":[0.373,0.126]}]},{"key":"pharaoh","name":"Pharaoh","regions":[{"name":"Lips","at":[0.498,0.49]},{"name":"Head-piece","at":[0.639,0.157]}]}]</script> <div class="tc-toolbar"> <div class="tc-seg" role="group" aria-label="Object"> <button type="button" data-obj="mask" aria-pressed="true">Mask</button> <button type="button" data-obj="penguin" aria-pressed="false">Penguin</button> <button type="button" data-obj="pharaoh" aria-pressed="false">Pharaoh</button> </div> <div class="tc-seg" role="group" aria-label="Zoom mode"> <button type="button" data-mode="regions" aria-pressed="true">Highlights</button> <button type="button" data-mode="free" aria-pressed="false">Free zoom</button> </div> </div> <div class="tc-stage"> <div class="tc-full"> <div class="tc-frame" tabindex="0" aria-label="Rendering. In Free zoom, move the pointer or use the arrow keys to choose the magnified point."> <img class="tc-frame-img" src="/assets/img/texture_consolidation/mask_ours.webp" alt="Mask, front view, textured by our method" draggable="false" decoding="async"> <div class="tc-marks"></div> <div class="tc-lens" aria-hidden="true"></div> <span class="tc-hint" aria-hidden="true"> <span class="tc-hint-fine">move to magnify</span><span class="tc-hint-coarse">tap to magnify</span> </span> </div> <div class="tc-seg tc-seg-small" role="group" aria-label="Full view"> <button type="button" data-full="ours" aria-pressed="true">Ours</button> <button type="button" data-full="baseline" aria-pressed="false" class="tc-bl-name"></button> </div> </div> <div class="tc-side"> <div class="tc-pair"> <div class="tc-zoom"> <div class="tc-zoom-img" data-zoomof="baseline" role="img" aria-label="Magnified baseline"></div> <span class="tc-tag tc-bl-name"></span> </div> <div class="tc-zoom tc-zoom-ours"> <div class="tc-zoom-img" data-zoomof="ours" role="img" aria-label="Magnified result, ours"></div> <span class="tc-tag">Ours</span> </div> </div> <p class="tc-note" aria-live="polite"></p> <div class="tc-regionbar"> <span class="tc-label" id="tc-region-label">Region</span> <div class="tc-seg" role="group" aria-labelledby="tc-region-label"></div> </div> </div> </div> <div class="tc-strip"> <span class="tc-label" id="tc-strip-label">All methods at this spot · choose one to compare</span> <div class="tc-tiles" role="group" aria-labelledby="tc-strip-label"> <button type="button" class="tc-tile" data-method="blended" data-note="Confidence-weighted blending of the back-projected renderings, with no registration, so misaligned features ghost." aria-pressed="true"> <span class="tc-tile-img" data-zoomof="blended"></span> <span class="tc-tile-name">Blended</span> </button> <button type="button" class="tc-tile" data-method="mvstex" data-note="Takes each patch from a single view. Consistent within a patch, but leaves seams at patch boundaries and raises contrast." aria-pressed="false"> <span class="tc-tile-img" data-zoomof="mvstex"></span> <span class="tc-tile-name">MVS-tex</span> </button> <button type="button" class="tc-tile" data-method="colormap" data-note="Registration designed for dense RGB-D video. It degrades on a sparse set of generated views." aria-pressed="false"> <span class="tc-tile-img" data-zoomof="colormap"></span> <span class="tc-tile-name">ColorMap</span> </button> <button type="button" class="tc-tile" data-method="advia" data-note="Adversarial texture optimization designed for dense RGB-D video. It degrades on sparse generated views and shifts colors." aria-pressed="false"> <span class="tc-tile-img" data-zoomof="advia"></span> <span class="tc-tile-name">AdvIA</span> </button> <button type="button" class="tc-tile" data-method="im2surftex" data-note="Aggregates colors over small, fixed pixel-radius neighborhoods, so misalignments larger than that remain as blur and ghosting." aria-pressed="false"> <span class="tc-tile-img" data-zoomof="im2surftex"></span> <span class="tc-tile-name">Im2SurfTex</span> </button> <button type="button" class="tc-tile" data-method="meshlrm" data-note="View-dependent color reproduces the input views, but shows artifacts at views outside the input set, such as this one." aria-pressed="false"> <span class="tc-tile-img" data-zoomof="meshlrm"></span> <span class="tc-tile-name">NeRF (MeshLRM)</span> </button> <div class="tc-tile tc-tile-ours"> <span class="tc-tile-img" data-zoomof="ours"></span> <span class="tc-tile-name">Ours</span> </div> </div> </div> </figure> <h2>Interactive 3D Comparison</h2> <p class="tc-caption-lead"> The example run from our code release: a texture computed from nine photographs of a vase with known cameras. Drag to rotate, scroll or pinch to zoom, and drag the divider to compare <strong>Blended</strong> (left) with <strong>Ours</strong> (right). </p> <figure class="tc-3d" id="tc-3d" data-base="/assets/texture_consolidation/vase/"> <div class="tc-3d-stage"> <canvas class="tc-3d-canvas" aria-label="3D view of the textured vase. Drag to rotate, scroll to zoom."></canvas> <div class="tc-3d-divider" role="slider" tabindex="0" aria-label="Comparison divider: Blended on the left, Ours on the right" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" hidden=""> <span class="tc-3d-handle" aria-hidden="true"></span> </div> <span class="tc-tag tc-3d-tag-left" hidden="">Blended</span> <span class="tc-tag tc-3d-tag-right" hidden="">Ours</span> <button type="button" class="tc-3d-reset" hidden="">Reset view</button> <span class="tc-3d-tap" aria-hidden="true" hidden="">tap to interact</span> <p class="tc-3d-status">Loading the 3D model…</p> </div> <figcaption class="tc-credit"> The vase model and photographs used in the example run are courtesy of Paolo Cignoni and Marco Callieri, <a href="https://vcg.isti.cnr.it/" rel="external nofollow noopener" target="_blank">Visual Computing Laboratory, ISTI-CNR</a>. </figcaption> </figure> </div> <style>
+  /* This page supplies its own centered title block, so suppress the layout's
+     header. The front-matter title is kept for the browser tab and SEO. */
+  .post-header {
+    display: none;
+  }
+
+  .tc-paper {
+    max-width: 56rem;
+    margin: 0 auto;
+  }
+
+  /* Generous separation between the page's major sections. */
+  .tc-paper h2 {
+    margin-top: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .tc-title {
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.25;
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+
+  .tc-authors,
+  .tc-affil,
+  .tc-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem 1.4rem;
+  }
+
+  .tc-authors {
+    font-size: 1.05rem;
+  }
+
+  .tc-affil {
+    font-size: 0.88rem;
+    opacity: 0.75;
+    margin-top: 0.35rem;
+  }
+
+  .tc-links {
+    margin: 1.5rem 0 0.5rem;
+    gap: 0.6rem;
+  }
+
+  .tc-link {
+    display: inline-block;
+    padding: 0.4rem 1.1rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 2rem;
+    font-size: 0.92rem;
+    text-decoration: none;
+    color: var(--global-text-color);
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .tc-link:hover {
+    background-color: var(--global-theme-color);
+    border-color: var(--global-theme-color);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  /* Placeholder links: visibly inert until real URLs are filled in. */
+  .tc-link[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  /* The figures are authored on white, so they keep a white plate in both
+     themes rather than floating on a dark page with a hard rectangular edge. */
+  .tc-teaser {
+    margin: 3rem 0 0;
+  }
+
+  .tc-teaser img {
+    width: 100%;
+    height: auto;
+    display: block;
+    background-color: #fff;
+    border-radius: 0.4rem;
+    padding: 0.6rem;
+  }
+
+  .tc-teaser figcaption {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .tc-teaser figcaption p {
+    margin: 0 0 0.45rem;
+  }
+
+  .tc-teaser figcaption p:not(:has(.tc-io)) {
+    opacity: 0.75;
+  }
+
+  /* Input / Output labels in the teaser caption. */
+  .tc-io {
+    display: inline-block;
+    min-width: 4.6rem;
+    margin-right: 0.45rem;
+    padding: 0.08rem 0.55rem;
+    border-radius: 999px;
+    background-color: var(--global-theme-color);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: 0.08em;
+  }
+
+  .tc-abstract {
+    text-align: justify;
+  }
+
+  .tc-caption-lead {
+    font-size: 0.95rem;
+  }
+
+  .tc-not {
+    color: var(--global-theme-color);
+  }
+
+  /* ---- result viewer ---- */
+
+  .tc-viewer {
+    margin: 1.5rem 0 0;
+  }
+
+  .tc-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .tc-label {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 0.45rem;
+  }
+
+  /* Segmented control shared by every button group in the viewer. */
+  .tc-seg {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 999px;
+  }
+
+  .tc-seg button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--global-text-color);
+    font: inherit;
+    font-size: 0.88rem;
+    line-height: 1.2;
+    padding: 0.35rem 0.95rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .tc-seg button:hover {
+    color: var(--global-theme-color);
+  }
+
+  .tc-seg button[aria-pressed="true"] {
+    background-color: var(--global-theme-color);
+    color: #fff;
+  }
+
+  .tc-seg-small {
+    display: flex;
+    width: max-content;
+    margin: 0.6rem auto 0;
+  }
+
+  .tc-seg-small button {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.8rem;
+  }
+
+  .tc-seg button:focus-visible,
+  .tc-tile:focus-visible,
+  .tc-mark:focus-visible,
+  .tc-frame:focus-visible {
+    outline: 2px solid var(--global-theme-color);
+    outline-offset: 2px;
+  }
+
+  .tc-stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .tc-frame {
+    position: relative;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .tc-viewer[data-mode="free"] .tc-frame {
+    cursor: crosshair;
+    /* Vertical swipes still scroll the page on touch screens; a tap places the lens. */
+    touch-action: pan-y;
+  }
+
+  .tc-frame-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    -webkit-user-drag: none;
+  }
+
+  /* The outer shadow dims everything outside the lens; overflow on the frame
+     clips it to the rendering. */
+  .tc-lens {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 2px solid var(--global-theme-color);
+    border-radius: 3px;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.85),
+      0 0 0 100vmax rgba(0, 0, 0, 0.06);
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  /* Highlight regions: the active one is drawn by the lens, the others as
+     dashed outlines that can be clicked. Each carries its number. */
+  .tc-marks {
+    position: absolute;
+    inset: 0;
+  }
+
+  .tc-viewer[data-mode="free"] .tc-marks {
+    display: none;
+  }
+
+  .tc-mark {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0;
+    border: 2px dashed rgba(0, 0, 0, 0.45);
+    border-radius: 3px;
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+
+  .tc-mark:hover {
+    border-color: var(--global-theme-color);
+  }
+
+  .tc-mark.is-active {
+    border-color: transparent;
+  }
+
+  /* Inside the corner, so a region clamped against the frame edge never has
+     its number clipped. */
+  .tc-mark-num {
+    position: absolute;
+    left: 0.2rem;
+    top: 0.2rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #222;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.15rem;
+    text-align: center;
+  }
+
+  .tc-mark.is-active .tc-mark-num {
+    background-color: var(--global-theme-color);
+    color: #fff;
+    box-shadow: none;
+  }
+
+  .tc-hint {
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: 0.7rem;
+    transform: translateX(-50%);
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .tc-viewer[data-mode="free"] .tc-hint {
+    display: block;
+  }
+
+  .tc-viewer.tc-touched .tc-hint {
+    opacity: 0;
+  }
+
+  .tc-hint-coarse {
+    display: none;
+  }
+
+  @media (pointer: coarse) {
+    .tc-hint-fine {
+      display: none;
+    }
+
+    .tc-hint-coarse {
+      display: inline;
+    }
+  }
+
+  .tc-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .tc-zoom {
+    position: relative;
+  }
+
+  .tc-zoom-img,
+  .tc-tile-img {
+    display: block;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.5rem;
+  }
+
+  .tc-zoom-ours .tc-zoom-img {
+    border-color: var(--global-theme-color);
+    box-shadow: 0 0 0 1px var(--global-theme-color);
+  }
+
+  .tc-tag {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    padding: 0.12rem 0.55rem;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    pointer-events: none;
+  }
+
+  .tc-zoom-ours .tc-tag {
+    background-color: var(--global-theme-color);
+  }
+
+  /* Per-method notes are hidden for now. The text stays in tc_methods and is
+     still filled in by the script; delete this display rule to show it again. */
+  .tc-note {
+    display: none;
+    font-size: 0.84rem;
+    opacity: 0.75;
+    margin: 0.8rem 0 0;
+    min-height: 2.6em;
+  }
+
+  .tc-regionbar {
+    margin-top: 1rem;
+  }
+
+  /* Matches the numbered badge on the region's outline in the rendering. */
+  .tc-rnum {
+    display: inline-block;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-right: 0.4rem;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px currentColor;
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.1rem;
+    text-align: center;
+    vertical-align: 0.06em;
+  }
+
+  .tc-viewer[data-mode="free"] .tc-regionbar {
+    visibility: hidden;
+  }
+
+  /* ---- row of every method ---- */
+
+  .tc-strip {
+    margin-top: 1.75rem;
+  }
+
+  .tc-tiles {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .tc-tile {
+    appearance: none;
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--global-text-color);
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .tc-tile-ours {
+    cursor: default;
+  }
+
+  .tc-tile:not(.tc-tile-ours):hover .tc-tile-img {
+    border-color: var(--global-theme-color);
+  }
+
+  .tc-tile[aria-pressed="true"] .tc-tile-img {
+    border-color: var(--global-text-color);
+    box-shadow: 0 0 0 1px var(--global-text-color);
+  }
+
+  .tc-tile-ours .tc-tile-img {
+    border-color: var(--global-theme-color);
+    box-shadow: 0 0 0 1px var(--global-theme-color);
+  }
+
+  .tc-tile-name {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.76rem;
+    line-height: 1.25;
+  }
+
+  .tc-tile[aria-pressed="true"] .tc-tile-name {
+    font-weight: 600;
+  }
+
+  .tc-tile-ours .tc-tile-name {
+    color: var(--global-theme-color);
+    font-weight: 600;
+  }
+
+  /* ---- 3D comparison ---- */
+
+  .tc-3d {
+    margin: 1.5rem 0 0;
+  }
+
+  .tc-3d-stage {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.5rem;
+  }
+
+  .tc-3d-canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+  }
+
+  .tc-3d-canvas:active {
+    cursor: grabbing;
+  }
+
+  /* The divider's hit area is wider than the visible line, so it is easy to
+     grab without stealing drags meant for rotating the model. */
+  .tc-3d-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2rem;
+    margin-left: -1rem;
+    cursor: ew-resize;
+    touch-action: none;
+    outline: none;
+  }
+
+  .tc-3d-divider::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    margin-left: -1px;
+    background-color: var(--global-theme-color);
+  }
+
+  .tc-3d-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.9rem;
+    height: 1.9rem;
+    margin: -0.95rem 0 0 -0.95rem;
+    border: 2px solid var(--global-theme-color);
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Two chevrons, drawn with borders so they need no icon font. */
+  .tc-3d-handle::before,
+  .tc-3d-handle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 0.38rem;
+    height: 0.38rem;
+    margin-top: -0.19rem;
+    border: solid var(--global-theme-color);
+    border-width: 0 0 2px 2px;
+  }
+
+  .tc-3d-handle::before {
+    left: 0.42rem;
+    transform: rotate(45deg);
+  }
+
+  .tc-3d-handle::after {
+    right: 0.42rem;
+    transform: rotate(-135deg);
+  }
+
+  .tc-3d-divider:focus-visible .tc-3d-handle {
+    outline: 2px solid var(--global-theme-color);
+    outline-offset: 2px;
+  }
+
+  .tc-3d-tag-right {
+    left: auto;
+    right: 0.5rem;
+    background-color: var(--global-theme-color);
+  }
+
+  .tc-3d-reset {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    appearance: none;
+    padding: 0.2rem 0.7rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #222;
+    font: inherit;
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+
+  .tc-3d-reset:hover {
+    border-color: var(--global-theme-color);
+    color: var(--global-theme-color);
+  }
+
+  .tc-3d-tap {
+    position: absolute;
+    left: 50%;
+    bottom: 0.7rem;
+    transform: translateX(-50%);
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  .tc-3d-status {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  /* display:flex above would otherwise override the hidden attribute. */
+  .tc-3d-status[hidden] {
+    display: none;
+  }
+
+  .tc-credit {
+    margin-top: 0.7rem;
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  .tc-bibtex {
+    background-color: var(--global-code-bg-color);
+    border-radius: 0.4rem;
+    padding: 1rem;
+    overflow-x: auto;
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 720px) {
+    .tc-stage {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .tc-toolbar {
+      justify-content: center;
+    }
+
+    /* Seven tiles do not fit across a phone; the row scrolls on its own. */
+    .tc-tiles {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      padding-bottom: 0.4rem;
+    }
+
+    .tc-tile {
+      flex: 0 0 6.2rem;
+      scroll-snap-align: start;
+    }
+
+    .tc-paper h2 {
+      margin-top: 3rem;
+    }
+
+    .tc-3d-stage {
+      aspect-ratio: 1 / 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tc-seg button,
+    .tc-link,
+    .tc-mark,
+    .tc-hint {
+      transition: none;
+    }
+  }
+</style> <script>
+  (function () {
+    var root = document.getElementById('tc-viewer');
+    if (!root) {
+      return;
+    }
+
+    var ZOOM = 2;
+    var objects = {};
+    JSON.parse(root.querySelector('.tc-data').textContent).forEach(function (o) {
+      objects[o.key] = o;
+    });
+
+    function all(sel) {
+      return Array.prototype.slice.call(root.querySelectorAll(sel));
+    }
+
+    var base = root.getAttribute('data-base');
+    var frame = root.querySelector('.tc-frame');
+    var frameImg = root.querySelector('.tc-frame-img');
+    var lens = root.querySelector('.tc-lens');
+    var marksBox = root.querySelector('.tc-marks');
+    var regionGroup = root.querySelector('.tc-regionbar .tc-seg');
+    var note = root.querySelector('.tc-note');
+    var pairOurs = root.querySelector('.tc-pair [data-zoomof="ours"]');
+    var pairBaseline = root.querySelector('.tc-pair [data-zoomof="baseline"]');
+
+    var objButtons = all('[data-obj]');
+    var modeButtons = all('.tc-toolbar [data-mode]');
+    var fullButtons = all('[data-full]');
+    var tiles = all('.tc-tile[data-method]');
+    var baselineNames = all('.tc-bl-name');
+    // Everything that shows the magnified region: the pair and the row.
+    var targets = all('[data-zoomof]');
+
+    var first = objButtons[0].getAttribute('data-obj');
+    var state = {
+      obj: first,
+      method: root.getAttribute('data-method'),
+      mode: 'regions',
+      region: 0,
+      full: 'ours',
+      u: objects[first].regions[0].at[0],
+      v: objects[first].regions[0].at[1]
+    };
+    var markEls = [];
+    var regionButtons = [];
+
+    function src(obj, method) {
+      return base + obj + '_' + method + '.webp';
+    }
+
+    function clamp(x, lo, hi) {
+      return Math.max(lo, Math.min(hi, x));
+    }
+
+    function press(buttons, active) {
+      buttons.forEach(function (b) {
+        b.setAttribute('aria-pressed', b === active ? 'true' : 'false');
+      });
+    }
+
+    function tileFor(key) {
+      return tiles.filter(function (t) {
+        return t.getAttribute('data-method') === key;
+      })[0];
+    }
+
+    function methodName(key) {
+      return tileFor(key).querySelector('.tc-tile-name').textContent;
+    }
+
+    // Warm the cache for every method of the current object, so switching
+    // the comparison is instant rather than a visible reload.
+    var warmed = {};
+    function warm(obj) {
+      ['ours'].concat(tiles.map(function (t) {
+        return t.getAttribute('data-method');
+      })).forEach(function (m) {
+        var url = src(obj, m);
+        if (!warmed[url]) {
+          warmed[url] = new Image();
+          warmed[url].src = url;
+        }
+      });
+    }
+
+    // Lens geometry. The lens is the square of the rendering that the pair
+    // shows at ZOOM; every target (pair and row) is scaled so that exactly
+    // that square fills it, centered on the same point. This relies on all
+    // methods sharing one camera and framing.
+    function centerOf(size, w, h, u, v) {
+      return [clamp(u * w, size / 2, w - size / 2), clamp(v * h, size / 2, h - size / 2)];
+    }
+
+    var queued = false;
+    function draw() {
+      queued = false;
+      var w = frame.clientWidth;
+      var h = frame.clientHeight;
+      var pw = pairOurs.clientWidth;
+      if (!w || !h || !pw) {
+        return;
+      }
+
+      var size = Math.min(w, h, pw / ZOOM);
+      var c = centerOf(size, w, h, state.u, state.v);
+
+      lens.style.width = size + 'px';
+      lens.style.height = size + 'px';
+      lens.style.transform = 'translate(' + (c[0] - size / 2) + 'px,' + (c[1] - size / 2) + 'px)';
+
+      targets.forEach(function (el) {
+        var tw = el.clientWidth;
+        var th = el.clientHeight;
+        if (!tw) {
+          return;
+        }
+        var k = tw / size;
+        el.style.backgroundSize = w * k + 'px ' + h * k + 'px';
+        el.style.backgroundPosition = tw / 2 - c[0] * k + 'px ' + (th / 2 - c[1] * k) + 'px';
+      });
+
+      objects[state.obj].regions.forEach(function (r, i) {
+        var m = markEls[i];
+        var p = centerOf(size, w, h, r.at[0], r.at[1]);
+        m.style.width = size + 'px';
+        m.style.height = size + 'px';
+        m.style.transform = 'translate(' + (p[0] - size / 2) + 'px,' + (p[1] - size / 2) + 'px)';
+        m.classList.toggle('is-active', state.mode === 'regions' && i === state.region);
+      });
+    }
+
+    function redraw() {
+      if (!queued) {
+        queued = true;
+        window.requestAnimationFrame(draw);
+      }
+    }
+
+    function showImages() {
+      var shown = state.full === 'ours' ? 'ours' : state.method;
+      frameImg.src = src(state.obj, shown);
+      frameImg.alt = objects[state.obj].name + ', front view, textured by ' +
+        (state.full === 'ours' ? 'our method' : methodName(state.method));
+      targets.forEach(function (el) {
+        var of = el.getAttribute('data-zoomof');
+        el.style.backgroundImage = 'url("' + src(state.obj, of === 'baseline' ? state.method : of) + '")';
+      });
+      redraw();
+    }
+
+    function setRegion(i) {
+      var r = objects[state.obj].regions[i];
+      state.region = i;
+      state.u = r.at[0];
+      state.v = r.at[1];
+      press(regionButtons, regionButtons[i]);
+      redraw();
+    }
+
+    // Region buttons and on-image outlines are rebuilt for each object.
+    function buildRegions() {
+      marksBox.textContent = '';
+      regionGroup.textContent = '';
+      markEls = [];
+      regionButtons = [];
+      objects[state.obj].regions.forEach(function (r, i) {
+        var mark = document.createElement('button');
+        mark.type = 'button';
+        mark.className = 'tc-mark';
+        mark.setAttribute('aria-label', 'Region ' + (i + 1) + ': ' + r.name);
+        mark.innerHTML = '<span class="tc-mark-num">' + (i + 1) + '</span>';
+        mark.addEventListener('click', function () {
+          setRegion(i);
+        });
+        marksBox.appendChild(mark);
+        markEls.push(mark);
+
+        var b = document.createElement('button');
+        var num = document.createElement('span');
+        b.type = 'button';
+        num.className = 'tc-rnum';
+        num.textContent = i + 1;
+        b.appendChild(num);
+        b.appendChild(document.createTextNode(r.name));
+        b.addEventListener('click', function () {
+          setRegion(i);
+        });
+        regionGroup.appendChild(b);
+        regionButtons.push(b);
+      });
+    }
+
+    function setObject(key) {
+      state.obj = key;
+      press(objButtons, objButtons.filter(function (b) {
+        return b.getAttribute('data-obj') === key;
+      })[0]);
+      buildRegions();
+      setRegion(0);
+      warm(key);
+      showImages();
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      root.setAttribute('data-mode', mode);
+      press(modeButtons, modeButtons.filter(function (b) {
+        return b.getAttribute('data-mode') === mode;
+      })[0]);
+      if (mode === 'regions') {
+        setRegion(state.region);
+      }
+      redraw();
+    }
+
+    function setMethod(key) {
+      state.method = key;
+      press(tiles, tileFor(key));
+      baselineNames.forEach(function (el) {
+        el.textContent = methodName(key);
+      });
+      pairBaseline.setAttribute('aria-label', 'Magnified ' + methodName(key));
+      note.textContent = tileFor(key).getAttribute('data-note');
+      showImages();
+    }
+
+    function pointAt(e) {
+      var r = frame.getBoundingClientRect();
+      state.u = clamp((e.clientX - r.left) / r.width, 0, 1);
+      state.v = clamp((e.clientY - r.top) / r.height, 0, 1);
+      root.classList.add('tc-touched');
+      redraw();
+    }
+
+    // Free zoom: the mouse follows on hover; touch and pen place on tap and
+    // follow while dragging. Highlights ignore the pointer except the marks.
+    frame.addEventListener('pointermove', function (e) {
+      if (state.mode === 'free' && (e.pointerType === 'mouse' || e.buttons)) {
+        pointAt(e);
+      }
+    });
+    frame.addEventListener('pointerdown', function (e) {
+      if (state.mode === 'free') {
+        pointAt(e);
+      }
+    });
+
+    frame.addEventListener('keydown', function (e) {
+      var n = objects[state.obj].regions.length;
+      if (state.mode === 'regions') {
+        var dir = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1 }[e.key];
+        if (dir) {
+          e.preventDefault();
+          setRegion((state.region + dir + n) % n);
+        }
+        return;
+      }
+      var step = e.shiftKey ? 0.08 : 0.02;
+      var d = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[e.key];
+      if (d) {
+        e.preventDefault();
+        state.u = clamp(state.u + d[0], 0, 1);
+        state.v = clamp(state.v + d[1], 0, 1);
+        root.classList.add('tc-touched');
+        redraw();
+      }
+    });
+
+    objButtons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        setObject(b.getAttribute('data-obj'));
+      });
+    });
+
+    modeButtons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        setMode(b.getAttribute('data-mode'));
+      });
+    });
+
+    fullButtons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.full = b.getAttribute('data-full');
+        press(fullButtons, b);
+        showImages();
+      });
+    });
+
+    tiles.forEach(function (t) {
+      t.addEventListener('click', function () {
+        setMethod(t.getAttribute('data-method'));
+      });
+    });
+
+    frameImg.addEventListener('load', redraw);
+    window.addEventListener('resize', redraw);
+    if (window.ResizeObserver) {
+      new ResizeObserver(redraw).observe(root);
+    }
+
+    setObject(state.obj);
+    setMethod(state.method);
+  })();
+</script> <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+    }
+  }
+</script> <script type="module">
+  // Split-view 3D comparison of the vase. The same mesh is drawn twice per
+  // frame through one camera: Blended left of the divider, Ours right of it.
+  // three.js and the model load only when the section comes near the viewport.
+  const root = document.getElementById('tc-3d');
+
+  // Opening view: the camera chosen for the code release's README figure,
+  // shifted into the frame of the centered mesh in vase.bin.
+  const HOME = [0.0451, 0.9289, 3.5627];
+  const FOV = 30;
+
+  if (root) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        io.disconnect();
+        init().catch((err) => {
+          console.error(err);
+          root.querySelector('.tc-3d-status').textContent = 'The 3D viewer could not load in this browser.';
+        });
+      }
+    }, { rootMargin: '300px' });
+    io.observe(root);
+  }
+
+  async function init() {
+    const [THREE, { OrbitControls }] = await Promise.all([
+      import('three'),
+      import('three/addons/controls/OrbitControls.js'),
+    ]);
+
+    const base = root.getAttribute('data-base');
+    const stage = root.querySelector('.tc-3d-stage');
+    const canvas = root.querySelector('.tc-3d-canvas');
+    const divider = root.querySelector('.tc-3d-divider');
+    const status = root.querySelector('.tc-3d-status');
+    const reset = root.querySelector('.tc-3d-reset');
+    const tapHint = root.querySelector('.tc-3d-tap');
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setClearColor(0xffffff, 1);
+
+    // vase.bin: uint32 vertex count, uint32 index count, then float32
+    // positions (xyz), float32 uvs, uint16 triangle indices.
+    const loadTexture = (url) => new Promise((resolve, reject) => {
+      new THREE.TextureLoader().load(url, resolve, undefined, reject);
+    });
+    const [buf, texBlended, texOurs] = await Promise.all([
+      fetch(base + 'vase.bin').then((r) => {
+        if (!r.ok) throw new Error('vase.bin: HTTP ' + r.status);
+        return r.arrayBuffer();
+      }),
+      loadTexture(base + 'blended.webp'),
+      loadTexture(base + 'ours.webp'),
+    ]);
+    const [nV, nI] = new Uint32Array(buf, 0, 2);
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(buf, 8, nV * 3), 3));
+    geometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(buf, 8 + nV * 12, nV * 2), 2));
+    geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(buf, 8 + nV * 20, nI), 1));
+
+    // Unlit, so the textures appear exactly as computed.
+    const material = (tex) => {
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      return new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide });
+    };
+    const matBlended = material(texBlended);
+    const matOurs = material(texOurs);
+
+    const scene = new THREE.Scene();
+    const mesh = new THREE.Mesh(geometry, matOurs);
+    scene.add(mesh);
+
+    const camera = new THREE.PerspectiveCamera(FOV, 1, 0.05, 50);
+    const controls = new OrbitControls(camera, canvas);
+    controls.enablePan = false;
+    controls.minDistance = 1.0;
+    controls.maxDistance = 9;
+
+    function goHome() {
+      camera.position.set(HOME[0], HOME[1], HOME[2]);
+      camera.up.set(0, 1, 0);
+      controls.target.set(0, 0, 0);
+      controls.update();
+    }
+
+    let split = 0.5;
+    function render() {
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      const sx = Math.round(w * split);
+      renderer.setScissorTest(true);
+      mesh.material = matBlended;
+      renderer.setScissor(0, 0, sx, h);
+      renderer.render(scene, camera);
+      mesh.material = matOurs;
+      renderer.setScissor(sx, 0, w - sx, h);
+      renderer.render(scene, camera);
+    }
+
+    function resize() {
+      const w = stage.clientWidth;
+      const h = stage.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      render();
+    }
+
+    function setSplit(s) {
+      split = Math.min(0.98, Math.max(0.02, s));
+      divider.style.left = split * 100 + '%';
+      divider.setAttribute('aria-valuenow', String(Math.round(split * 100)));
+      render();
+    }
+
+    controls.addEventListener('change', render);
+    new ResizeObserver(resize).observe(stage);
+
+    // Divider: drag it, or focus it and use the arrow keys.
+    divider.addEventListener('pointerdown', (e) => {
+      divider.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    divider.addEventListener('pointermove', (e) => {
+      if (divider.hasPointerCapture(e.pointerId)) {
+        const r = stage.getBoundingClientRect();
+        setSplit((e.clientX - r.left) / r.width);
+      }
+    });
+    divider.addEventListener('keydown', (e) => {
+      const step = e.shiftKey ? 0.1 : 0.02;
+      const d = { ArrowLeft: -step, ArrowRight: step, Home: -1, End: 1 }[e.key];
+      if (d !== undefined) {
+        e.preventDefault();
+        setSplit(split + d);
+      }
+    });
+
+    reset.addEventListener('click', () => {
+      goHome();
+      setSplit(0.5);
+    });
+
+    // Touch screens: the model only takes touches after a tap, so a swipe
+    // across it still scrolls the page. Touching elsewhere releases it.
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      const activate = (on) => {
+        controls.enabled = on;
+        canvas.style.touchAction = on ? 'none' : 'pan-y';
+        tapHint.hidden = on;
+      };
+      activate(false);
+      // Anywhere in the stage: the hint sits over the divider, so a tap on
+      // the hint lands on the divider rather than the canvas.
+      stage.addEventListener('click', () => activate(true));
+      document.addEventListener('pointerdown', (e) => {
+        if (!stage.contains(e.target)) activate(false);
+      });
+    }
+
+    goHome();
+    setSplit(0.5);
+    resize();
+    status.hidden = true;
+    divider.hidden = false;
+    reset.hidden = false;
+    root.querySelectorAll('.tc-tag').forEach((t) => { t.hidden = false; });
+    root.classList.add('is-ready');
+  }
+</script> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2026 Hongyi Liu. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. </div> </footer> <script>
+  window.alFolio = {
+    compatBootstrap: false
+  };
+</script> <script src="/assets/js/nav-toggle.js?v=141bd79a73ebc0f0b6ea58e440ae79fc"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?v=e49affc7bd2646f6acdad1dbe02c2359" type="text/javascript"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/al_math/js/mathjax-setup.js"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script src="/assets/js/tooltips-setup.js?v=fe487e99db6c43751e6e7bdb2d6a0611"></script> <script src="/assets/js/no_defer.js?v=53b1b1a645525975c963ce8bf8bfefcf"></script> <script defer src="/assets/js/common.js?v=87baac90f765f2f3362dcf6aaf312a8a"></script> <script defer src="/assets/js/copy_code.js?v=c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?v=896d254890d9b47f0281f63bfccf0dee"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/al_img_tools/js/zoom.js"></script> <script defer src="/assets/js/progress-bar.js?v=499464c5c63ced6cf7ad62509f1e2610" type="text/javascript"></script> <script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js" integrity="sha256-uMJJ3EoTyfRBoTbR+lrfu1uRQ87RZG8AR3cVNuQVeFg=" crossorigin="anonymous"></script> <script>
+    addBackToTop();
+  </script> </body> </html>
