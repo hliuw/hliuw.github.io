@@ -137,21 +137,50 @@ tc_default_method: blended
     produce renderings that are consistent across views.
   </p>
 
-  <h2>Results</h2>
+  <h2 id="real-photographs">Results on Real Photographs</h2>
 
   <p class="tc-caption-lead">
-    Front views of textured mesh output using nine generated renderings. The front view shown is
-    <strong class="tc-not">not</strong> one of the nine inputs. Fusing misaligned renderings directly
-    leaves ghosting and blur, while selecting one view per patch, as MVS-tex does, stays sharp inside
-    each patch but leaves seams where patches meet. Methods designed for dense RGB-D captures, such as
-    ColorMap and AdvIA, degrade on a sparse set of inputs. Our method registers the renderings on the
-    surface before fusing them, producing a seamless, ghost-free texture.
+    {% comment %} Link "code release" to github.com/hliuw/TextureConsolidation once it is public. {% endcomment %}
+    Here we show the example run from our code release, with nine photographs of a vase as input.
   </p>
 
+  <p class="tc-howto">
+    Drag to rotate, scroll or pinch to zoom, and drag the divider to compare <strong>Blended</strong>
+    on the left with <strong>Ours</strong> on the right.
+  </p>
+
+  <figure class="tc-3d" id="tc-3d"
+          data-base="{{ '/assets/texture_consolidation/vase/' | relative_url }}">
+    <div class="tc-3d-stage">
+      <canvas class="tc-3d-canvas" aria-label="3D view of the textured vase. Drag to rotate, scroll to zoom."></canvas>
+      <div class="tc-3d-divider" role="slider" tabindex="0" aria-label="Comparison divider: Blended on the left, Ours on the right"
+           aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" hidden>
+        <span class="tc-3d-handle" aria-hidden="true"></span>
+      </div>
+      <span class="tc-tag tc-3d-tag-left" hidden>Blended</span>
+      <span class="tc-tag tc-3d-tag-right" hidden>Ours</span>
+      <button type="button" class="tc-3d-reset" hidden>Reset view</button>
+      <span class="tc-3d-tap" aria-hidden="true" hidden>tap to interact</span>
+      <p class="tc-3d-status">Loading the 3D model&hellip;</p>
+    </div>
+    <figcaption class="tc-credit">
+      The vase model and photographs used in the example run are courtesy of Paolo Cignoni and Marco
+      Callieri, <a href="https://vcg.isti.cnr.it/">Visual Computing Laboratory, ISTI-CNR</a>.
+    </figcaption>
+  </figure>
+
+  <h2 id="generated-renderings">Results on Generated Renderings</h2>
+
   <p class="tc-caption-lead">
-    <strong>Highlights</strong> steps through the regions the paper zooms into; <strong>Free zoom</strong>
-    magnifies whatever is under the cursor. The row below shows every method at the same spot &mdash;
-    pick one to set it beside ours.
+    The following image shows the front view of three objects, each textured from nine generated
+    renderings. Note that the front view is <strong class="tc-hl">not</strong>
+    one of the nine inputs.
+  </p>
+
+  <p class="tc-howto">
+    Use <strong>Highlights</strong> to step through the regions the paper zooms into, or
+    <strong>Free zoom</strong> to magnify whatever is under the cursor. The row under the image shows
+    every method at the same spot. Click one to place it beside ours.
   </p>
 
   <figure class="tc-viewer" id="tc-viewer"
@@ -238,35 +267,13 @@ tc_default_method: blended
 
   </figure>
 
-  <h2>Interactive 3D Comparison</h2>
-
-  <p class="tc-caption-lead">
-    {% comment %} Link "code release" to github.com/hliuw/TextureConsolidation once it is public. {% endcomment %}
-    The example run from our code release:
-    a texture computed from nine photographs of a vase with
-    known cameras. Drag to rotate, scroll or pinch to zoom, and drag the divider to compare
-    <strong>Blended</strong> (left) with <strong>Ours</strong> (right).
+  <p class="tc-conclusion">
+    Fusing misaligned renderings directly leaves ghosting and blur. Selecting one view per patch, as
+    MVS-tex does, stays sharp inside each patch but leaves seams where patches meet. Methods designed
+    for dense RGB-D captures, such as ColorMap and AdvIA, degrade on a sparse set of inputs.
+    <strong class="tc-hl">Our method registers the renderings on the surface before fusing them,
+    producing a seamless, ghost-free texture.</strong>
   </p>
-
-  <figure class="tc-3d" id="tc-3d"
-          data-base="{{ '/assets/texture_consolidation/vase/' | relative_url }}">
-    <div class="tc-3d-stage">
-      <canvas class="tc-3d-canvas" aria-label="3D view of the textured vase. Drag to rotate, scroll to zoom."></canvas>
-      <div class="tc-3d-divider" role="slider" tabindex="0" aria-label="Comparison divider: Blended on the left, Ours on the right"
-           aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" hidden>
-        <span class="tc-3d-handle" aria-hidden="true"></span>
-      </div>
-      <span class="tc-tag tc-3d-tag-left" hidden>Blended</span>
-      <span class="tc-tag tc-3d-tag-right" hidden>Ours</span>
-      <button type="button" class="tc-3d-reset" hidden>Reset view</button>
-      <span class="tc-3d-tap" aria-hidden="true" hidden>tap to interact</span>
-      <p class="tc-3d-status">Loading the 3D model&hellip;</p>
-    </div>
-    <figcaption class="tc-credit">
-      The vase model and photographs used in the example run are courtesy of Paolo Cignoni and Marco
-      Callieri, <a href="https://vcg.isti.cnr.it/">Visual Computing Laboratory, ISTI-CNR</a>.
-    </figcaption>
-  </figure>
 
 {% comment %}
   BibTeX is hidden for now. To restore it, remove this comment wrapper and the
@@ -410,8 +417,24 @@ tc_default_method: blended
     font-size: 0.95rem;
   }
 
-  .tc-not {
+  /* Emphasis for the key words and the takeaway sentence. */
+  .tc-hl {
     color: var(--global-theme-color);
+  }
+
+  /* How-to lines sit between a section's description and its figure, set
+     apart so they read as instructions rather than as claims. */
+  .tc-howto {
+    margin: 0.2rem 0 0;
+    padding-left: 0.8rem;
+    border-left: 2px solid var(--global-theme-color);
+    font-size: 0.88rem;
+    opacity: 0.85;
+  }
+
+  .tc-conclusion {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
   }
 
   /* ---- result viewer ---- */
