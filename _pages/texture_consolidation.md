@@ -55,12 +55,10 @@ tc_default_method: blended
 ---
 
 {% comment %}
-  DRAFT project page. The paper is an arXiv preprint (not published at a venue).
-  Before making this public:
-    1. Fill in the arXiv URL, and the arXiv ID in the BibTeX (XXXX.XXXXX).
-    2. Once github.com/hliuw/TextureConsolidation is public, restore the Code
-       button and the 3D section's "code release" link (both in Liquid comments).
-  The BibTeX section and button are hidden in Liquid comments for now.
+  Project page. The paper is an arXiv preprint, arXiv:2610.36098 (cs.GR). Keep
+  the BibTeX below identical to the one in the code release README.
+  The Code button and the 3D section's "code release" link point to
+  github.com/hliuw/TextureConsolidation.
   Images in assets/img/texture_consolidation/ are renderings only.
   No mesh or texture data may be added there (copyright).
   The vase mesh and textures in assets/texture_consolidation/vase/ are cleared
@@ -88,11 +86,9 @@ tc_default_method: blended
   </div>
 
   <nav class="tc-links" aria-label="Paper resources">
-    <a href="#" class="tc-link" aria-disabled="true">arXiv</a>
-    {% comment %} Code is hidden until github.com/hliuw/TextureConsolidation is public. {% endcomment %}
-    {% comment %}<a href="https://github.com/hliuw/TextureConsolidation" class="tc-link">Code</a>{% endcomment %}
-    {% comment %} BibTeX is hidden for now; restore together with the section below. {% endcomment %}
-    {% comment %}<a href="#bibtex" class="tc-link">BibTeX</a>{% endcomment %}
+    <a href="https://arxiv.org/abs/2610.36098" class="tc-link">arXiv</a>
+    <a href="https://github.com/hliuw/TextureConsolidation" class="tc-link">Code</a>
+    <a href="#bibtex" class="tc-link">BibTeX</a>
   </nav>
 
   <figure class="tc-teaser">
@@ -140,8 +136,9 @@ tc_default_method: blended
   <h2 id="real-photographs">Results on Real Photographs</h2>
 
   <p class="tc-caption-lead">
-    {% comment %} Link "code release" to github.com/hliuw/TextureConsolidation once it is public. {% endcomment %}
-    Here we show the example run from our code release, with nine photographs of a vase as input.
+    Here we show the example run from our
+    <a href="https://github.com/hliuw/TextureConsolidation">code release</a>, with nine photographs of a vase
+    as input.
   </p>
 
   <p class="tc-howto">
@@ -275,19 +272,19 @@ tc_default_method: blended
     producing a seamless, ghost-free texture.</strong>
   </p>
 
-{% comment %}
-  BibTeX is hidden for now. To restore it, remove this comment wrapper and the
-  one around the BibTeX button in the link row.
-
   <h2 id="bibtex">BibTeX</h2>
 
-<pre class="tc-bibtex"><code>@article{liu2026texture,
-  title   = {Texture Consolidation of Generated Multi-View Renderings},
-  author  = {Liu, Hongyi and Wang, Yifan and Kim, Vladimir G. and Kazhdan, Misha},
-  journal = {arXiv preprint arXiv:XXXX.XXXXX},
-  year    = {2026}
+  <p class="tc-caption-lead">If you find our work useful, please consider citing:</p>
+
+<pre class="tc-bibtex"><code>@misc{liu2026texture,
+  title         = {Texture Consolidation of Generated Multi-View Renderings},
+  author        = {Liu, Hongyi and Wang, Yifan and Kim, Vladimir G. and Kazhdan, Misha},
+  year          = {2026},
+  eprint        = {2610.36098},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.GR},
+  url           = {https://arxiv.org/abs/2610.36098}
 }</code></pre>
-{% endcomment %}
 
 </div>
 
