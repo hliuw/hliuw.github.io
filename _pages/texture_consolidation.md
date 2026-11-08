@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Texture Consolidation
+title: Texture Consolidation of Generated Multi-View Renderings
 permalink: /texture-consolidation/
 description: Project page for "Texture Consolidation of Generated Multi-View Renderings"
 nav: false
@@ -105,13 +105,8 @@ tc_default_method: blended
         texture-atlased mesh.
       </p>
       <p>
-        We back-project the renderings into texture-space colors and confidences, register them with
-        flow-fields solved on the surface, and fuse them by confidence-aware gradient-domain stitching.
-      </p>
-      <p>
         <span class="tc-io">Output</span>
-        A single seamless texture image, shown rendered on the mesh (right). Confidence-weighted
-        blending alone ghosts; registration and stitching keep the detail sharp.
+        A single seamless texture image, shown rendered on the mesh (right).
       </p>
     </figcaption>
   </figure>
@@ -132,6 +127,58 @@ tc_default_method: blended
     modern image generation pipelines generate highly convincing renderings, they struggle to
     produce renderings that are consistent across views.
   </p>
+
+  <h2 id="registration-and-stitching">Registration and Stitching</h2>
+
+  <p class="tc-caption-lead">
+    We back-project the renderings into texture-space colors and confidences, register them with
+    flow-fields solved on the surface, and fuse them by confidence-aware gradient-domain stitching.
+    The figure below shows the result of each stage on a helmet textured from generated renderings.
+  </p>
+
+  <p class="tc-howto">
+    Move the cursor over any of the three textures (or tap on a touch screen) to magnify the same spot
+    in all of them. Move away to return to the paper's two zoom-ins.
+  </p>
+
+  <figure class="tc-steps" id="tc-steps">
+    <div class="tc-steps-grid">
+      {% assign tc_steps = "blended,registered,stitched" | split: "," %}
+      {% assign tc_step_names = "blended|registered &amp; blended|registered &amp; stitched" | split: "|" %}
+      {% for k in tc_steps %}
+        {% assign nm = tc_step_names[forloop.index0] %}
+        <div class="tc-step{% if forloop.last %} tc-step-ours{% endif %}">
+          <div class="tc-step-frame">
+            <img class="tc-step-full" src="{{ tc_img }}helmet_{{ k }}_full.webp"
+                 alt="Helmet texture, {{ nm }}" width="760" height="760"
+                 loading="lazy" decoding="async">
+            <img class="tc-step-clean" src="{{ tc_img }}helmet_{{ k }}_clean.webp"
+                 alt="" width="950" height="950" loading="lazy" decoding="async">
+            <div class="tc-step-lens" aria-hidden="true"></div>
+          </div>
+          <div class="tc-step-zooms">
+            <div class="tc-step-mag" role="img" aria-label="Helmet, {{ nm }}: magnified at the cursor"
+                 style="background-image: url('{{ tc_img }}helmet_{{ k }}_clean.webp')">
+              <span class="tc-tag">{{ nm }}</span>
+            </div>
+            <img class="tc-step-zoom" src="{{ tc_img }}helmet_{{ k }}_zoom_tl.webp"
+                 alt="Helmet, {{ nm }}: zoom-in on the top-left box" width="275" height="275"
+                 loading="lazy" decoding="async">
+            <img class="tc-step-zoom" src="{{ tc_img }}helmet_{{ k }}_zoom_br.webp"
+                 alt="Helmet, {{ nm }}: zoom-in on the bottom-right box" width="230" height="230"
+                 loading="lazy" decoding="async">
+          </div>
+          <span class="tc-step-label">{{ nm }}</span>
+        </div>
+      {% endfor %}
+    </div>
+    <figcaption class="tc-steps-caption">
+      Confidence-weighted blending produces ghosting due to feature misalignment (left). Optical flow
+      aligns the features, but discontinuities due to color variations persist (middle).
+      Gradient-domain stitching removes these, producing a seamless texture image without ghosting
+      (right).
+    </figcaption>
+  </figure>
 
   <h2 id="real-photographs">Results on Real Photographs</h2>
 
@@ -783,6 +830,158 @@ tc_default_method: blended
     font-weight: 600;
   }
 
+  /* ---- registration and stitching (helmet) ---- */
+
+  .tc-steps {
+    margin: 1.25rem 0 0;
+  }
+
+  /* Three columns at every width: the point of the figure is reading them
+     side by side, so on phones the images shrink rather than stack. */
+  .tc-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .tc-step-frame,
+  .tc-step-zoom {
+    display: block;
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.5rem;
+  }
+
+  /* Hover magnifier. While it is on, each full view swaps to the version
+     without the paper's boxes, and a square magnified view of the spot under
+     the lens opens over the zoom row (and the labels below it), so the page
+     does not move. */
+  .tc-step-frame {
+    position: relative;
+    overflow: hidden;
+    cursor: crosshair;
+    user-select: none;
+    -webkit-user-select: none;
+    /* Vertical swipes still scroll the page on touch screens; a tap places the lens. */
+    touch-action: pan-y;
+  }
+
+  .tc-step-full,
+  .tc-step-clean {
+    display: block;
+    width: 100%;
+    height: auto;
+    -webkit-user-drag: none;
+  }
+
+  .tc-step-clean,
+  .tc-step-lens,
+  .tc-step-mag {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .tc-step-clean {
+    inset: 0;
+  }
+
+  .tc-step-lens {
+    left: 0;
+    top: 0;
+    border: 2px solid var(--global-theme-color);
+    border-radius: 3px;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.85),
+      0 0 0 100vmax rgba(0, 0, 0, 0.06);
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .tc-step-mag {
+    left: 0;
+    top: 0;
+    z-index: 2;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  }
+
+  .tc-step-ours .tc-step-mag .tc-tag {
+    background-color: var(--global-theme-color);
+  }
+
+  .tc-steps.is-zooming .tc-step-clean,
+  .tc-steps.is-zooming .tc-step-lens,
+  .tc-steps.is-zooming .tc-step-mag {
+    visibility: visible;
+  }
+
+  /* The magnified views cover the labels and caption; hide them so they
+     don't show through the gaps (each view carries its own name). */
+  .tc-steps.is-zooming .tc-step-zoom,
+  .tc-steps.is-zooming .tc-step-label,
+  .tc-steps.is-zooming .tc-steps-caption {
+    visibility: hidden;
+  }
+
+  /* The two zoom-ins sit side by side under the full view, as in the paper. */
+  .tc-step-zooms {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.3rem;
+    margin-top: 0.4rem;
+  }
+
+  .tc-step-zoom {
+    border-radius: 0.35rem;
+  }
+
+  .tc-step-label {
+    display: block;
+    margin-top: 0.45rem;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .tc-step-ours .tc-step-label {
+    color: var(--global-theme-color);
+    font-weight: 600;
+  }
+
+  .tc-steps-caption {
+    margin-top: 1rem;
+    font-size: 0.88rem;
+    opacity: 0.8;
+    text-align: justify;
+  }
+
+  @media (max-width: 720px) {
+    .tc-steps-grid {
+      gap: 0.4rem;
+    }
+
+    .tc-step-label {
+      font-size: 0.72rem;
+    }
+
+    .tc-step-mag .tc-tag {
+      left: 0.25rem;
+      top: 0.25rem;
+      max-width: calc(100% - 0.5rem);
+      padding: 0.05rem 0.35rem;
+      border-radius: 0.35rem;
+      font-size: 0.6rem;
+      line-height: 1.3;
+    }
+  }
+
   /* ---- 3D comparison ---- */
 
   .tc-3d {
@@ -988,6 +1187,95 @@ tc_default_method: blended
     }
   }
 </style>
+
+<script>
+  // Registration and stitching: a square lens that follows the cursor on all
+  // three textures at once, each magnified in a square view over its column's
+  // zoom row. All three renderings share one camera and framing, so the same
+  // (u, v) is the same point on the helmet.
+  (function () {
+    var root = document.getElementById('tc-steps');
+    if (!root) {
+      return;
+    }
+
+    var ZOOM = 3;
+    var frames = Array.prototype.slice.call(root.querySelectorAll('.tc-step-frame'));
+    var lenses = Array.prototype.slice.call(root.querySelectorAll('.tc-step-lens'));
+    var mags = Array.prototype.slice.call(root.querySelectorAll('.tc-step-mag'));
+    var u = 0.5;
+    var v = 0.5;
+    var queued = false;
+
+    function clamp(x, lo, hi) {
+      return Math.max(lo, Math.min(hi, x));
+    }
+
+    function draw() {
+      queued = false;
+      var w = frames[0].clientWidth;
+      var h = frames[0].clientHeight;
+      var mw = mags[0].clientWidth;
+      var mh = mags[0].clientHeight;
+      if (!w || !h || !mw || !mh) {
+        return;
+      }
+      var lw = mw / ZOOM;
+      var lh = mh / ZOOM;
+      var cx = clamp(u * w, lw / 2, w - lw / 2);
+      var cy = clamp(v * h, lh / 2, h - lh / 2);
+      lenses.forEach(function (el) {
+        el.style.width = lw + 'px';
+        el.style.height = lh + 'px';
+        el.style.transform = 'translate(' + (cx - lw / 2) + 'px,' + (cy - lh / 2) + 'px)';
+      });
+      mags.forEach(function (el) {
+        el.style.backgroundSize = w * ZOOM + 'px ' + h * ZOOM + 'px';
+        el.style.backgroundPosition = mw / 2 - cx * ZOOM + 'px ' + (mh / 2 - cy * ZOOM) + 'px';
+      });
+    }
+
+    function redraw() {
+      if (!queued) {
+        queued = true;
+        window.requestAnimationFrame(draw);
+      }
+    }
+
+    function pointAt(frame, e) {
+      var r = frame.getBoundingClientRect();
+      u = clamp((e.clientX - r.left) / r.width, 0, 1);
+      v = clamp((e.clientY - r.top) / r.height, 0, 1);
+      root.classList.add('is-zooming');
+      redraw();
+    }
+
+    // The mouse follows on hover and leaving restores the paper's zoom-ins;
+    // touch and pen place the lens on tap and follow while dragging, and a
+    // tap elsewhere on the page restores them.
+    frames.forEach(function (frame) {
+      frame.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'mouse' || e.buttons) {
+          pointAt(frame, e);
+        }
+      });
+      frame.addEventListener('pointerdown', function (e) {
+        pointAt(frame, e);
+      });
+      frame.addEventListener('pointerleave', function (e) {
+        if (e.pointerType === 'mouse') {
+          root.classList.remove('is-zooming');
+        }
+      });
+    });
+    document.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' && !e.target.closest('.tc-step-frame')) {
+        root.classList.remove('is-zooming');
+      }
+    });
+    window.addEventListener('resize', redraw);
+  })();
+</script>
 
 <script>
   (function () {
